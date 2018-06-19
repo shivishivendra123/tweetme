@@ -1,0 +1,11 @@
+{% if user.is_authenticated %}
+<form action="" method="POST">
+	{% csrf_token %}
+	<p>Are you sure you want to delete '{{ object  }}'</p>
+	<input type="submit" value="Delete">
+</form>
+{% else %}
+Please login here  to delete your post:
+
+<a href='/tweets/login1'>Login</a>
+{% endif %}

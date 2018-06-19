@@ -1,0 +1,30 @@
+<head>
+<script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" type="text/javascript"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+$( document ).ready(function() {
+    var data = {
+        labels: ['Jan', 'Feb', 'March', 'April', '20', '25', '30'],
+        datasets: [
+            {
+                label: "Random data",
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: {{ df }}
+            }
+        ]
+    };
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var myLineChart = new Chart(ctx).Line(data);
+});
+</script>
+</head>
+<canvas id="myChart" width="1000" height="700"></canvas>
+<form method="POST" action="">
+	{% csrf_token %}
+	{{ form.as_p}}
+	<input type="submit" name="sub" value='Create Post'>

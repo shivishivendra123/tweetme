@@ -1,0 +1,150 @@
+{% if user.is_authenticated %}
+<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<style type="text/css">
+#loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 10px;
+  height: 10px;
+  -webkit-animation: spin 1s linear infinite; /* Safari */
+  animation: spin 1s linear infinite;
+  margin-right:10px;
+}
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-bottom {
+  position: relative;
+  -webkit-animation-name: animatebottom;
+  -webkit-animation-duration: 1s;
+  animation-name: animatebottom;
+  animation-duration: 1s
+}
+
+@-webkit-keyframes animatebottom {
+  from { bottom:-100px; opacity:0 } 
+  to { bottom:0px; opacity:1 }
+}
+
+@keyframes animatebottom { 
+  from{ bottom:-100px; opacity:0 } 
+  to{ bottom:0; opacity:1 }
+}
+
+#container {
+  width: 100%;
+  display: none;
+  text-align: center;
+}
+
+</style>
+<script>
+var myVar;
+
+function myFunction() {
+    myVar = setTimeout(showPage, 3000);
+}
+
+function showPage() {
+  document.getElementById("loader").style.display = "none";
+  document.getElementById("container").style.display = "block";
+}
+</script>
+</head>
+<body onload="myFunction()">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/tweets/">Tweetme</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="/tweets/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/tweets/create/">Create</a>
+      </li>
+      <li>
+      	<div class='loader' id="loader"></div>
+      </li>
+      <li><div>
+        <form action="" method="GET">
+          <input type="text" name="q" placeholder="Search">
+          <button type="Submit"class="btn btn-primary">Search</button>
+        </form>
+      </div></li>
+      <li><div class = "navbar-nav ml-auto">
+        <form action="/tweets/logout/" method="GET" class="form-inline my-2 my-lg-0">
+          <button type="Submit"class="btn btn-primary">Logout</button>
+        </form>
+      </div></li>
+    </ul>
+  </div>
+</nav>
+	<!-- <center><div class='loader' id="loader"></div></center> -->
+
+<div class="container" id="container">
+
+	<div class="row" id=#row>
+		<div class="col-3">
+     <div class="row">
+      <button type="button" class="btn btn-outline-primary btn-block" role="button"><a href="#">Home<span class="badge badge-light">4</span></a></button>
+     </div>
+     <div class="row">
+      <button type="button" class="btn btn-outline-primary btn-block" role="button"><a href="#">Create</a></button>
+     </div>
+     <div class="row">
+      <button type="button" class="btn btn-outline-primary btn-block" role="button"><a href="#">Friends</a></button>
+     </div>
+     <div class="row">
+      <button type="button" class="btn btn-outline-primary btn-block" role="button"><a href="#">Feeds</a></button>
+     </div>
+     <div class="row">
+      <button type="button" class="btn btn-outline-primary btn-block" role="button"><a href="#">Around me</a></button>
+     </div>
+    </div>
+    <div class=col-1>
+    </div>
+    <div class="col">
+    {% for object in object_list %}
+    <div class="row">
+	<center><div class="card" style="width : 40rem;">
+	<div class="card-body">
+
+<h1 card="card-title">{{object.user}}</h1>
+{% if object.image %}
+<img class="card-img-top" src="{{ object.image.url }}" alt="Card image cap">
+{% endif %}
+<!-- <a href='{{ object.get_absolute_url }}' class="badge badge-primary">{{object.content}}</a><br> -->
+<p class="card-text">{{ object.content }}<br>{{object.created_at}}<br>
+{{object.updated_at}}<br></p>
+<a href='{{ object.get_absolute_url }}' class="btn btn-primary">View</a>
+<a href='/tweets/{{ object.id }}/update/' class="btn btn-primary">Update</a><br><hr>
+</div>
+</div>
+</div></center>
+{% endfor %}
+</div>
+</div>
+</div>
+</div>
+</body>
+{% else %}
+Please login here  to view your post:
+
+<a href='/tweets/login1'>Login</a>
+{% endif %}
